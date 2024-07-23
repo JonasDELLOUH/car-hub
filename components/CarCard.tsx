@@ -2,7 +2,7 @@
 import {useState} from "react";
 import Image from "next/image";
 import {CarProps} from "@/types";
-import {calculateCarRent} from "@/utils";
+import {calculateCarRent, generateCarImageUrl} from "@/utils";
 import {Inder} from "next/dist/compiled/@next/font/dist/google";
 import {CustomButton} from "@/components/index";
 import CarDetails from "@/components/CarDetails";
@@ -16,6 +16,7 @@ const CarCard = ({car}: CarCardProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const carRent = calculateCarRent(city_mpg, year)
+    // console.log(`${generateCarImageUrl(car)}`);
     return (
         <div className="car-card group">
             <div className="car-card__content">
@@ -36,7 +37,7 @@ const CarCard = ({car}: CarCardProps) => {
 
             <div className="relative w-full h-40 my-3 object-contain">
                 <Image
-                    src={'/hero.png'}
+                    src={generateCarImageUrl(car)}
                     alt={'car model'}
                     fill
                     priority
@@ -86,7 +87,12 @@ const CarCard = ({car}: CarCardProps) => {
                 </div>
             </div>
 
-            <CarDetails/>
+            <CarDetails isOpen={isOpen}
+                        closeModal={() => {
+                            setIsOpen(false)
+                        }}
+                        car={car}
+            />
 
         </div>
     )
